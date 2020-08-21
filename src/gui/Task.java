@@ -5,11 +5,11 @@ public class Task {
 	private String task, teacher, due;
 	private int priority;
 	
-	public Task(String task, String teacher, String due, int priority) {
+	public Task(String task) {
 		this.task = task;
-		this.teacher = teacher;
-		this.due = due;
-		this.priority = priority;
+//		this.teacher = teacher;
+//		this.due = due;
+//		this.priority = priority;
 	}
 
 	public String getTask() {
