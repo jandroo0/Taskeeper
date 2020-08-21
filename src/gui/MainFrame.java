@@ -5,12 +5,16 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import controller.Controller;
+
 public class MainFrame extends JFrame {
 	
 	private static final int WIDTH = 600, HEIGHT = 500;
 	
 	private TitlePanel titlePanel;
 	private FormPanel formPanel; TaskPanel taskPanel;
+	
+	private Controller controller;
 	
 	public MainFrame() {
 		super("Taskeeper alpha");
@@ -24,13 +28,17 @@ public class MainFrame extends JFrame {
 		formPanel = new FormPanel();
 		taskPanel = new TaskPanel();
 		
+		controller = new Controller(); // controller for database 
+
+		
 		layoutComponents();
 		
 		formPanel.setFormListener(new FormListener() {
 
 			@Override
 			public void inputTask(Task task) {
-				formPanel.setTaskPaneText(task);
+				controller.addTask(task);
+				formPanel.setTaskPaneText(controller.getTasks());
 				
 			}
 			

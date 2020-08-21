@@ -4,12 +4,11 @@ import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import controller.Controller;
 
 public class FormPanel extends JPanel {
 
@@ -22,8 +21,6 @@ public class FormPanel extends JPanel {
 	
 	private FormListener formListener;
 	
-	private Controller controller;
-
 	public FormPanel() {
 	
 		// initialization
@@ -38,8 +35,6 @@ public class FormPanel extends JPanel {
 
 		addTaskField.setColumns(14); // text field size
 		
-		controller = new Controller(); // controller for database 
-
 		// action listener
 		addTaskButton.addActionListener(new ActionListener() {
 
@@ -64,9 +59,8 @@ public class FormPanel extends JPanel {
 		this.formListener = listener;
 	}
 	
-	public void setTaskPaneText(Task task) {
-		controller.addTask(task); // add task to current task list
-		taskPane.updateTaskDisplay(controller.getTasks()); // update task display list with new task list 
+	public void setTaskPaneText(List<Task> tasks) {
+		taskPane.updateTaskDisplay(tasks); // update task display list with new task list 
 	}
 
 	private void layoutComponents() {
