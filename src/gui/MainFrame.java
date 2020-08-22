@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.io.FileNotFoundException;
 
 import javax.swing.JFrame;
 
@@ -9,7 +9,7 @@ import controller.Controller;
 
 public class MainFrame extends JFrame {
 	
-	private static final int WIDTH = 600, HEIGHT = 500;
+	private static final int WIDTH = 500, HEIGHT = 550;
 	
 	private TitlePanel titlePanel;
 	private FormPanel formPanel; TaskPanel taskPanel;
@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
 		setSize(WIDTH, HEIGHT);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setMinimumSize(new Dimension(WIDTH-450, HEIGHT-150));
+		setResizable(false);
 		setVisible(true);
 		
 		titlePanel = new TitlePanel();
@@ -37,13 +37,47 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void inputTask(Task task) {
-				controller.addTask(task);
-				formPanel.setTaskPaneText(controller.getTasks());
+				addTask(task); // add task to file and db
+				
+				
+				formPanel.setTaskPaneText(controller.getTasks()); // update text pane
 				
 			}
 			
 		});
 		
+	}
+	
+//	private void loadTasks() {
+//		try {
+//			
+//		}
+//	}
+	
+	// add task to tasks file
+	private void addTask(Task task) {
+		
+		try {
+			controller.addTaskToFile(task);
+		} catch(FileNotFoundException e) {
+			controller.createFile();
+		}
+		
+		controller.getTasks().add(task);
+		
+		System.out.println("Task added to file");
+	}
+	
+	// remove task from tasks file
+	private void removeTask(Task task) {
+		try {
+			controller.removeTaskFromFile(task);
+		} catch(FileNotFoundException e) {
+			controller.createFile();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		formPanel.setTaskPaneText(controller.getTasks());
 	}
 	
 	private void layoutComponents() {

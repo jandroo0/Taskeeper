@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import gui.Task;
@@ -13,12 +14,20 @@ public class Controller {
 		 return db.getTasks();
 	}
 	
-	public void addTask(Task task) {
-		db.addTask(task);
+	
+	
+	// from file--
+	
+	public void createFile() {
+		db.createFile();
 	}
 	
-	public void removeTask(Task task) {
-		db.removeTask(task);
+	public void addTaskToFile(Task task) throws FileNotFoundException {
+		db.addToFile(task);
+	}
+	
+	public void removeTaskFromFile(Task task) throws FileNotFoundException {
+		db.removeFromFile(task);
 	}
 	
 	

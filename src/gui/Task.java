@@ -1,12 +1,18 @@
 package gui;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class Task {
 	
-	private String task, teacher, due;
+	private String task, teacher;
 	private int priority;
+	private LocalDate dueDate;
 	
-	public Task(String task) {
+	public Task(String task, LocalDate dueDate) {
 		this.task = task;
+		this.dueDate = dueDate;
 //		this.teacher = teacher;
 //		this.due = due;
 //		this.priority = priority;
@@ -28,12 +34,12 @@ public class Task {
 		this.teacher = teacher;
 	}
 
-	public String getDue() {
-		return due;
+	public LocalDate getDueDate() {
+		return dueDate;
 	}
 
-	public void setDue(String due) {
-		this.due = due;
+	public void setDueDate(LocalDate dueDate) {
+		this.dueDate = dueDate;
 	}
 
 	public int getPriority() {
@@ -42,6 +48,10 @@ public class Task {
 
 	public void setPriority(int priority) {
 		this.priority = priority;
+	}
+	
+	public String toString() {
+		return task + " - " + dueDate.getDayOfWeek() + " " + dueDate.getMonth() + " " + dueDate.getDayOfMonth();
 	}
 	
 	
