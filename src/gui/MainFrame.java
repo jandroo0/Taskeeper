@@ -36,12 +36,22 @@ public class MainFrame extends JFrame {
 		formPanel.setFormListener(new FormListener() {
 
 			@Override
-			public void inputTask(Task task) {
+			public void inputTaskEvent(Task task) {
 				addTask(task); // add task to file and db
+				formPanel.updateTaskDisplay(controller.getTasks()); // update text pane
+			}
+
+			@Override
+			public void removeTaskEvent(String task) {
+				Task removedTask = null;
 				
+				for(Task tsk : controller.getTasks()) {
+					if(task.equals(tsk.getTask())) {
+						removedTask = tsk;
+					}
+				}
 				
-				formPanel.setTaskPaneText(controller.getTasks()); // update text pane
-				
+				removeTask(removedTask);
 			}
 			
 		});
@@ -57,7 +67,7 @@ public class MainFrame extends JFrame {
 			controller.createFile();
 		}
 		
-		formPanel.setTaskPaneText(controller.getTasks());
+		formPanel.updateTaskDisplay(controller.getTasks());
 	}
 	
 	// add task to tasks file
@@ -83,7 +93,7 @@ public class MainFrame extends JFrame {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		formPanel.setTaskPaneText(controller.getTasks());
+		formPanel.updateTaskDisplay(controller.getTasks());
 	}
 	
 	private void layoutComponents() {

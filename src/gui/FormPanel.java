@@ -17,7 +17,9 @@ import java.util.Properties;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -37,6 +39,10 @@ public class FormPanel extends JPanel {
 	private UtilDateModel dueDateModel;
 	private JDatePanelImpl dueDatePanel;
 	private JDatePickerImpl dueDatePicker;
+	
+	private JComboBox<String> removeTaskBox;
+	private DefaultComboBoxModel<String> removeTaskBoxModel;
+	private JButton removeTaskButton;
 
 	private FormListener formListener;
 
@@ -65,6 +71,12 @@ public class FormPanel extends JPanel {
 
 		dueDatePicker.getComponent(0).setPreferredSize(new Dimension(145, 27)); // JFormattedTextField
 		dueDatePicker.getComponent(1).setPreferredSize(new Dimension(30, 33)); // JButton
+		
+		removeTaskBox = new JComboBox<String>();
+		removeTaskBoxModel = new DefaultComboBoxModel<String>();
+		
+		removeTaskBox.setModel(removeTaskBoxModel);
+		removeTaskButton = new JButton("-");
 
 		// action listener
 		addTaskButton.addActionListener(new ActionListener() {
@@ -74,6 +86,20 @@ public class FormPanel extends JPanel {
 				addTaskAction();
 			}
 
+		});
+		
+		removeTaskButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String task = (String) removeTaskBox.getSelectedItem();
+				
+				if(formListener != null) {
+					formListener.removeTaskEvent(task);
+				}
+				
+			}
+			
 		});
 
 		// enter listener
@@ -102,8 +128,13 @@ public class FormPanel extends JPanel {
 		this.formListener = listener;
 	}
 
-	public void setTaskPaneText(List<Task> tasks) {
+	public void updateTaskDisplay(List<Task> tasks) {
 		taskPane.updateTaskDisplay(tasks); // update task display list with new task list
+		
+		removeTaskBoxModel.removeAllElements(); // clear all tasks
+		for(Task task : tasks) {
+			removeTaskBoxModel.addElement(task.getTask()); // update combo box with new task list
+		}
 	}
 
 	public void addTaskAction() {
@@ -116,12 +147,13 @@ public class FormPanel extends JPanel {
 		Task task = new Task(addedTask, dueDateString); // creates new task
 
 		if (formListener != null) {
-			formListener.inputTask(task); // sends new task to form listener
+			formListener.inputTaskEvent(task); // sends new task to form listener
 
 		}
 
 		addTaskField.setText(""); // sets add taskfield blank
-		JTextField dueDateTextField = (JTextField) dueDatePicker.getComponent(0);
+		
+		JTextField dueDateTextField = (JTextField) dueDatePicker.getComponent(0); // due date picker set blank
 		dueDateTextField.setText("");
 	}
 
@@ -132,19 +164,28 @@ public class FormPanel extends JPanel {
 		GridBagConstraints gc = new GridBagConstraints();
 
 		// first row
-		gc.anchor = GridBagConstraints.LINE_START;
-
 		gc.gridy = 0;
 		gc.gridx = 0;
 
 		// add task field
+		gc.anchor = GridBagConstraints.LINE_START;
+
 		topPanel.add(addTaskField, gc);
+		
+		// remove task box 
+		gc.gridx++;
+		gc.anchor = GridBagConstraints.CENTER;
+
+		
+		topPanel.add(removeTaskBox, gc);
 
 		// next row
 		gc.gridy++;
 		gc.gridx = 0;
 
 		// due date picker
+		gc.anchor = GridBagConstraints.LINE_START;
+
 		topPanel.add(dueDatePicker, gc);
 
 		// next row
@@ -154,6 +195,12 @@ public class FormPanel extends JPanel {
 		// add task button
 		gc.anchor = GridBagConstraints.CENTER;
 		topPanel.add(addTaskButton, gc);
+		
+		// remove task button
+		gc.gridx++;
+		gc.anchor = GridBagConstraints.CENTER;
+
+		topPanel.add(removeTaskButton, gc);
 
 		// bottom panel
 

@@ -2,5 +2,6 @@ package gui;
 
 public interface FormListener {
 
-	public void inputTask(Task task);
+	public void inputTaskEvent(Task task);
+	public void removeTaskEvent(String task);
 }
