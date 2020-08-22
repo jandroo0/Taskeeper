@@ -46,13 +46,19 @@ public class MainFrame extends JFrame {
 			
 		});
 		
+		loadTasks();
+		
 	}
 	
-//	private void loadTasks() {
-//		try {
-//			
-//		}
-//	}
+	private void loadTasks() {
+		try {
+			controller.loadFromFile();
+		} catch(FileNotFoundException e) {
+			controller.createFile();
+		}
+		
+		formPanel.setTaskPaneText(controller.getTasks());
+	}
 	
 	// add task to tasks file
 	private void addTask(Task task) {

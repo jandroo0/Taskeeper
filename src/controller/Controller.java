@@ -17,9 +17,12 @@ public class Controller {
 	
 	
 	// from file--
-	
 	public void createFile() {
 		db.createFile();
+	}
+	
+	public void loadFromFile() throws FileNotFoundException{
+		db.loadFromFile();
 	}
 	
 	public void addTaskToFile(Task task) throws FileNotFoundException {

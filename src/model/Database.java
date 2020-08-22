@@ -40,26 +40,32 @@ public class Database {
 		}
 	}
 	
-	// load tasks from file
-//	public void loadFromFile() {
-//		tasks.clear();
-//		
-//		File file = new File(filePath);
-//		
-//		try {
-//			Scanner reader = new Scanner(file);
-//			String row;
-//			
-//			while(reader.hasNextLine()) {
-//				row = reader.nextLine();
-//				
-//				String[] tasksString = row.split(",");
-//				
-//				
-//				Task task = new Task(tasksString[0], tasksString[1]);
-//			}
-//		}
-//	}
+//	 load tasks from file
+	public void loadFromFile() throws FileNotFoundException{
+		tasks.clear();
+		
+		File file = new File(filePath);
+		
+		try {
+			Scanner reader = new Scanner(file);
+			String row;
+			
+			while(reader.hasNextLine()) {
+				row = reader.nextLine();
+				
+				String[] tasksString = row.split(",");
+				
+				
+				Task task = new Task(tasksString[0], tasksString[1]);
+				
+				tasks.add(task);
+			}
+			
+			reader.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	// add task to tasks file
 	public void addToFile(Task task) throws FileNotFoundException{
@@ -68,7 +74,7 @@ public class Database {
 		try {
 			FileWriter writer = new FileWriter(file, true);
 			
-			String appendedTask = task.getTask() + "," + task.getDueDate();
+			String appendedTask = task.getTask() + "," + task.getDueDate() + "\n";
 			
 			writer.append(appendedTask);
 			writer.close();

@@ -8,9 +8,9 @@ public class Task {
 	
 	private String task, teacher;
 	private int priority;
-	private LocalDate dueDate;
+	private String dueDate;
 	
-	public Task(String task, LocalDate dueDate) {
+	public Task(String task, String dueDate) {
 		this.task = task;
 		this.dueDate = dueDate;
 //		this.teacher = teacher;
@@ -34,11 +34,11 @@ public class Task {
 		this.teacher = teacher;
 	}
 
-	public LocalDate getDueDate() {
+	public String getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(LocalDate dueDate) {
+	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}
 
@@ -51,7 +51,7 @@ public class Task {
 	}
 	
 	public String toString() {
-		return task + " - " + dueDate.getDayOfWeek() + " " + dueDate.getMonth() + " " + dueDate.getDayOfMonth();
+		return task + " - " + dueDate + "\n";
 	}
 	
 	

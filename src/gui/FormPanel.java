@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -109,19 +108,21 @@ public class FormPanel extends JPanel {
 
 	public void addTaskAction() {
 		String addedTask = addTaskField.getText();
-		Date chosenDueDate = (Date) dueDatePicker.getModel().getValue();
+		LocalDate dueDate = (LocalDate) ((Date) dueDatePicker.getModel().getValue()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // converts date from date picker to local date
 		
-		LocalDate dueDate = chosenDueDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		String dueDateString = dueDate.getDayOfWeek().toString().substring(0, 3) + " " + dueDate.getMonth().toString().substring(0, 3) + " " + dueDate.getDayOfMonth(); // converts local date to readable string format: "TUE AUGUST 24"
 
-
-		Task task = new Task(addedTask, dueDate);
+		
+		Task task = new Task(addedTask, dueDateString); // creates new task
 
 		if (formListener != null) {
-			formListener.inputTask(task);
+			formListener.inputTask(task); // sends new task to form listener
 
 		}
 
-		addTaskField.setText("");
+		addTaskField.setText(""); // sets add taskfield blank
+		JTextField dueDateTextField = (JTextField) dueDatePicker.getComponent(0);
+		dueDateTextField.setText("");
 	}
 
 	private void layoutComponents() {
