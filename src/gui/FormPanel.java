@@ -45,7 +45,7 @@ public class FormPanel extends JPanel {
 	private JButton removeTaskButton;
 
 	private FormListener formListener;
-
+	
 	public FormPanel() {
 
 		// initialization
